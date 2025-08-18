@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "docker" # 告诉 Dependabot 监控 Docker 文件
+    directory: "/"             # Dockerfile 所在的目录，根目录为 "/"
+    schedule:
+      interval: "daily"        # 每日检查更新
