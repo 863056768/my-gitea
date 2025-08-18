@@ -1,5 +1,4 @@
-ARG GITEA_VERSION=1.24.3
-FROM docker.gitea.com/gitea:${GITEA_VERSION}
+FROM docker.gitea.com/gitea:1.24.3
 
 RUN apk --no-cache add asciidoctor freetype freetype-dev gcc g++ libpng libffi-dev pandoc python3-dev py3-pyzmq pipx
 

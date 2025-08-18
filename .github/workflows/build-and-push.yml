@@ -31,7 +31,12 @@ jobs:
       - name: Set Gitea version from Dockerfile
         id: version
         run: |
-          GITEA_VERSION=$(grep -oP '(?<=ARG GITEA_VERSION=).*' Dockerfile)
+          # 从 Dockerfile 的 FROM 行提取 tag，例如: FROM docker.gitea.com/gitea:1.24.3
+          GITEA_VERSION=$(grep -oP '(?<=FROM\s+docker\.gitea\.com/gitea:).*' Dockerfile)
+          if [ -z "$GITEA_VERSION" ]; then
+            echo "Unable to extract Gitea version from Dockerfile" >&2
+            exit 1
+          fi
           echo "version=$GITEA_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GitHub Container Registry
