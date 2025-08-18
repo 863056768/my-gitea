@@ -5,15 +5,16 @@ on:
     branches:
       - main
     paths:
-      - 'Dockerfile' # 仅当 Dockerfile 变更时触发
+      - "Dockerfile" # 仅当 Dockerfile 变更时触发
   workflow_dispatch: # 允许手动触发
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write # 必须有写入权限才能推送到 GitHub Packages
 
     steps:
       - name: Checkout repository
