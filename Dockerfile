@@ -1,5 +1,5 @@
-# 使用官方 Gitea 镜像作为基础
-FROM docker.gitea.com/gitea:1.24.5
+ARG GITEA_VERSION=1.24.3
+FROM docker.gitea.com/gitea:${GITEA_VERSION}
 
 RUN apk --no-cache add asciidoctor freetype freetype-dev gcc g++ libpng libffi-dev pandoc python3-dev py3-pyzmq pipx
 
