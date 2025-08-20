@@ -10,6 +10,6 @@ COPY render-ipynb /usr/local/bin/render-ipynb
 RUN <<EOT
     apk --no-cache add asciidoctor freetype freetype-dev gcc g++ libpng libffi-dev pandoc python3-dev py3-pyzmq pipx
     chmod +x /usr/local/bin/render-asciidoc /usr/local/bin/render-ipynb
-    pipx install nbconvert docutils --include-deps --prefer-binary
+    pipx install nbconvert docutils --include-deps
     rm -rf /root/.cache /var/cache/apk/* /tmp/*
 EOT
