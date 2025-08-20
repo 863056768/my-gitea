@@ -37,6 +37,11 @@ jobs:
           fi
           echo "version=$GITEA_VERSION" >> "$GITHUB_OUTPUT"
 
+      - name: Derive short commit SHA
+        id: meta
+        run: |
+          echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -51,6 +56,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
+            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}-${{ steps.meta.outputs.short_sha }}
             ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
             ghcr.io/${{ github.repository }}:latest
           platforms: linux/amd64,linux/arm64
