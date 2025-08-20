@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# 1. Set the render command
+# Wrapped in a variable for later use and debugging
+RENDER_COMMAND="ulimit -v 1048576; jupyter nbconvert --stdin --stdout --to html --template basic"
+
+# 2. Execute rendering using the timeout command
+# The command's output is redirected to standard output
+/usr/bin/timeout 60s /bin/bash -c "$RENDER_COMMAND"
+
+# 3. Capture the exit code of the timeout command
+EXIT_CODE=$?
+
+# 4. Return an HTML report based on the exit code
+# Exit code 0 means success. Gitea will render the stdout content.
+if [[ $EXIT_CODE -eq 0 ]]; then
+    exit 0
+# Exit code 124 means the task timed out.
+elif [[ $EXIT_CODE -eq 124 || $EXIT_CODE -eq 143 ]]; then
+    echo "<h1>Rendering Failed: Task Timed Out</h1>"
+    echo "<p>The Jupyter Notebook rendering time exceeded the allowed limit.</p>"
+    echo "<p>Possible causes:</p><ul><li>The notebook content is too large</li><li>The code execution time is too long</li></ul>"
+    exit 0
+# Exit code 137 or 139 means the memory limit was exceeded.
+elif [[ $EXIT_CODE -eq 137 || $EXIT_CODE -eq 139 ]]; then
+    echo "<h1>Rendering Failed: Out of Memory</h1>"
+    echo "<p>The Jupyter Notebook consumed more memory than the renderer's allowed limit.</p>"
+    echo "<p>Possible causes:</p><ul><li>The notebook contains huge data outputs (like large tables or arrays)</li><li>High-resolution images or complex charts</li></ul>"
+    exit 0
+# Any other non-zero exit code indicates an unknown error.
+else
+    echo "<h1>Rendering Failed: Unknown Error</h1>"
+    echo "<p>The renderer encountered an unknown problem. Please contact an administrator.</p>"
+    echo "<p>Error Code: $EXIT_CODE</p>"
+    exit 0
+fi
