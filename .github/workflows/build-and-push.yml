@@ -16,7 +16,7 @@ permissions:
   packages: write
 
 env:
-  SLUG: ${{ github.repository_owner }}/ubuntu
+  SLUG: ${{ github.repository_owner }}/gitea
 
 jobs:
   build-and-push:
