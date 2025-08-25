@@ -6,11 +6,17 @@ on:
       - main
     paths:
       - "Dockerfile"
+  pull_request:
+    paths: 
+      - "Dockerfile"
   workflow_dispatch:
 
 permissions:
   contents: read
   packages: write
+
+env:
+  SLUG: ${{ github.repository_owner }}/ubuntu
 
 jobs:
   build-and-push:
@@ -56,7 +62,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}-${{ steps.meta.outputs.short_sha }}
-            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ env.SLUG }}:${{ steps.version.outputs.version }}-${{ steps.meta.outputs.short_sha }}
+            ghcr.io/${{ env.SLUG }}:${{ steps.version.outputs.version }}
+            ghcr.io/${{ env.SLUG }}:latest
           platforms: linux/arm64
