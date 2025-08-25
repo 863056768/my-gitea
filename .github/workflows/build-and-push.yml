@@ -6,9 +6,11 @@ on:
       - main
     paths:
       - "Dockerfile"
+      - ".github/workflows/build-and-push.yml"
   pull_request:
     paths: 
       - "Dockerfile"
+      - ".github/workflows/build-and-push.yml"
   workflow_dispatch:
 
 permissions:
