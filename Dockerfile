@@ -1,4 +1,4 @@
-FROM docker.gitea.com/gitea:1.24.5
+FROM docker.gitea.com/gitea:1.24.6
 
 ENV PIPX_HOME="/usr/local/pipx"
 ENV PIPX_BIN_DIR="/usr/local/pipx/bin"
